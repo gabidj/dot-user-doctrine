@@ -9,6 +9,8 @@ declare(strict_types = 1);
 
 namespace Dot\User\Entity;
 
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Dot\Mapper\Entity\Entity;
 
 /**
@@ -17,26 +19,43 @@ use Dot\Mapper\Entity\Entity;
  */
 class RoleEntity extends Entity implements \JsonSerializable
 {
-    /** @var  mixed */
+    /** @Id
+     * @Column(type="integer")
+     * @GeneratedValue *
+     */
     protected $id;
 
-    /** @var  string */
+    /** @var string @Column(type="string") **/
     protected $name;
 
     /**
-     * @return string
+     * Many Groups have Many Users.
+     * @ManyToMany(targetEntity="User", mappedBy="roles")
+     * @JoinTable(name="user_roles",
+     *            joinColumns={@JoinColumn(name="userId", referencedColumnName="id")},
+     *     inverseJoinColumns={@JoinColumn(name="roleId", referencedColumnName="id")}
+     *   )
+     */
+    private $users;
+
+    /**
+     * @return mixed
+     */
+    public function getUsers() : array
+    {
+        return $this->users->toArray() ?? [];
+    }
+
+    public function __construct() {
+        $this->users = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**
@@ -54,7 +73,7 @@ class RoleEntity extends Entity implements \JsonSerializable
     {
         $this->name = $name;
     }
-
+    
     /**
      * @return string
      */
