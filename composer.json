@@ -36,7 +36,8 @@
     "dotkernel/dot-controller-plugin-forms": "^1.0",
     "dotkernel/dot-authentication": "^1.0",
     "dotkernel/dot-authentication-web": "^1.0.1",
-    "dotkernel/dot-authorization": "^0.1.2"
+    "dotkernel/dot-authorization": "^0.1.2",
+    "doctrine/orm": "^2.6"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8",
